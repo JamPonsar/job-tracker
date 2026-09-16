@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchApplications, fetchProfiles, createProfile } from './api.js';
+import { fetchApplications, fetchProfiles, createProfile, updateProfileTheme } from './api.js';
 import { setActiveProfileId, loadStoredProfileId } from './profileStore.js';
 import AddApplicationTab from './components/AddApplicationTab.jsx';
 import ApplicationsTab from './components/ApplicationsTab.jsx';
@@ -8,18 +8,10 @@ import ProfileTab from './components/ProfileTab.jsx';
 import Modal from './components/Modal.jsx';
 
 const TABS = ['Applications', 'Add Application', 'History', 'Profile'];
-const VALID_THEMES = ['light', 'dark', 'pastel-pink', 'pastel-blue', 'pastel-purple'];
-
-function getInitialTheme() {
-  const stored = localStorage.getItem('theme');
-  if (VALID_THEMES.includes(stored)) return stored;
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('Applications');
   const [applications, setApplications] = useState([]);
-  const [theme, setTheme] = useState(getInitialTheme);
 
   const [profiles, setProfiles] = useState([]);
   const [profileId, setProfileId] = useState(null);
@@ -28,10 +20,11 @@ export default function App() {
   const [newProfileName, setNewProfileName] = useState('');
   const [profileError, setProfileError] = useState(null);
 
+  const currentProfile = profiles.find((p) => p.id === profileId);
+
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    document.documentElement.dataset.theme = currentProfile?.theme || 'light';
+  }, [currentProfile?.theme]);
 
   useEffect(() => {
     fetchProfiles().then((list) => {
@@ -79,10 +72,18 @@ export default function App() {
     }
   }
 
-  const currentProfile = profiles.find((p) => p.id === profileId);
-
   function handleProfileRenamed(updated) {
     setProfiles((list) => list.map((p) => (p.id === updated.id ? updated : p)));
+  }
+
+  async function handleThemeChange(newTheme) {
+    if (!currentProfile || newTheme === currentProfile.theme) return;
+    setProfiles((list) => list.map((p) => (p.id === currentProfile.id ? { ...p, theme: newTheme } : p)));
+    try {
+      await updateProfileTheme(currentProfile.id, newTheme);
+    } catch {
+      setProfiles((list) => list.map((p) => (p.id === currentProfile.id ? { ...p, theme: currentProfile.theme } : p)));
+    }
   }
 
   return (
@@ -120,8 +121,8 @@ export default function App() {
                 profiles={profiles}
                 onSwitchProfile={handleSwitchProfile}
                 onAddProfileClick={() => setShowNewProfile(true)}
-                theme={theme}
-                onThemeChange={setTheme}
+                theme={currentProfile?.theme || 'light'}
+                onThemeChange={handleThemeChange}
                 onRenamed={handleProfileRenamed}
               />
             )}
