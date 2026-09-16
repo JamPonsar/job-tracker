@@ -12,6 +12,7 @@ const TABS = ['Applications', 'Add Application', 'History', 'Profile'];
 export default function App() {
   const [activeTab, setActiveTab] = useState('Applications');
   const [applications, setApplications] = useState([]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [profiles, setProfiles] = useState([]);
   const [profileId, setProfileId] = useState(null);
@@ -91,13 +92,26 @@ export default function App() {
       <header className="app-header">
         <div className="app-header-top">
           <h1>Job Applicator</h1>
+          <button
+            className="hamburger-btn"
+            onClick={() => setMobileMenuOpen((o) => !o)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
-        <nav className="tabs">
+        <nav className={`tabs ${mobileMenuOpen ? 'tabs-open' : ''}`}>
           {TABS.map((tab) => (
             <button
               key={tab}
               className={`tab-button ${activeTab === tab ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => {
+                setActiveTab(tab);
+                setMobileMenuOpen(false);
+              }}
             >
               {tab}
             </button>

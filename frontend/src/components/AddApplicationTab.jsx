@@ -3,6 +3,23 @@ import { createApplication } from '../api.js';
 import { WORK_MODES, EMPTY_FORM } from '../constants.js';
 import ApplyPopup from './ApplyPopup.jsx';
 
+const CLAUDE_PROMPT = `Extract the job details from the posting below and reply with ONLY a single JSON object (no markdown fences, no extra commentary) using exactly these keys:
+
+{
+  "company": "",
+  "job_title": "",
+  "location": "",
+  "work_mode": "Remote | Hybrid | In-person",
+  "salary_range": "",
+  "job_link": "",
+  "notes": ""
+}
+
+Use an empty string for any field you can't find, and leave "work_mode" as an empty string if it isn't stated (otherwise it must be exactly "Remote", "Hybrid", or "In-person"). "notes" should be a 1-2 sentence summary of the role.
+
+Job posting:
+`;
+
 function extractJsonObject(raw) {
   const trimmed = raw.trim();
   // Tolerate a ```json ... ``` fence in case it wasn't stripped before pasting.
@@ -17,6 +34,17 @@ export default function AddApplicationTab({ onAdded }) {
   const [showApplyPopup, setShowApplyPopup] = useState(false);
   const [saveError, setSaveError] = useState(null);
   const [savedMessage, setSavedMessage] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopyPrompt() {
+    try {
+      await navigator.clipboard.writeText(CLAUDE_PROMPT);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  }
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -89,6 +117,22 @@ export default function AddApplicationTab({ onAdded }) {
   return (
     <div className="tab-panel">
       <h2>Add Application</h2>
+
+      <section className="prompt-helper">
+        <h3>Get the JSON from Claude</h3>
+        <p className="modal-subtext">
+          Copy this prompt into Claude along with the job posting (paste the text or link), then paste its JSON reply below.
+        </p>
+        <pre className="prompt-box">{CLAUDE_PROMPT}</pre>
+        <div className="prompt-helper-actions">
+          <button type="button" className="btn btn-secondary" onClick={handleCopyPrompt}>
+            {copied ? 'Copied!' : 'Copy Prompt'}
+          </button>
+          <a className="btn btn-primary" href="https://claude.ai/new" target="_blank" rel="noreferrer">
+            Open Claude ↗
+          </a>
+        </div>
+      </section>
 
       <label className="field">
         <span>Paste Structured JSON</span>
