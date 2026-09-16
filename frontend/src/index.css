@@ -562,12 +562,12 @@ td {
    (overflow-x: auto) scrolls horizontally instead of squeezing columns. */
 .applications-table {
   table-layout: fixed;
-  width: 1410px;
+  width: 1440px;
 }
 
 .applications-table th:nth-child(1),
 .applications-table td:nth-child(1) {
-  width: 110px;
+  width: 140px;
 }
 
 .applications-table th:nth-child(2),
@@ -980,6 +980,15 @@ th.sortable:hover {
   .search-input {
     max-width: none;
     width: 100%;
+  }
+
+  /* On mobile there's no room to let the row-menu dropdown pop out past the
+     table edge (that's what overflow: visible is for on larger screens) —
+     scrolling the table itself instead of letting it spill past the panel
+     matters more here. */
+  .history-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .profile-split-row {
