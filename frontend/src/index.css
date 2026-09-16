@@ -555,14 +555,16 @@ td {
   text-overflow: ellipsis;
 }
 
-/* Fixed pixel column widths (not percentages) so cell content/text never
-   reflows or shrinks. The table stays this exact width regardless of
-   viewport: on wide screens (1920px+) it fits inside .table-wrapper with
-   room to spare and shows no scrollbar; on narrower screens .table-wrapper
-   (overflow-x: auto) scrolls horizontally instead of squeezing columns. */
+/* Fixed pixel widths on every column except Notes, so cell content/text
+   never reflows or shrinks. The table is at least 1440px (its columns'
+   combined width) but stretches to fill wider containers — the Notes
+   column (the one column below with no explicit width) absorbs any extra
+   space. On narrower screens .table-wrapper (overflow-x: auto) scrolls
+   horizontally instead of squeezing columns. */
 .applications-table {
   table-layout: fixed;
-  width: 1440px;
+  width: 100%;
+  min-width: 1490px;
 }
 
 .applications-table th:nth-child(1),
@@ -577,7 +579,7 @@ td {
 
 .applications-table th:nth-child(3),
 .applications-table td:nth-child(3) {
-  width: 190px;
+  width: 230px;
 }
 
 .applications-table th:nth-child(4),
@@ -587,7 +589,7 @@ td {
 
 .applications-table th:nth-child(5),
 .applications-table td:nth-child(5) {
-  width: 120px;
+  width: 150px;
 }
 
 .applications-table th:nth-child(6),
@@ -605,10 +607,8 @@ td {
   width: 170px;
 }
 
-.applications-table th:nth-child(9),
-.applications-table td:nth-child(9) {
-  width: 220px;
-}
+/* Notes intentionally has no explicit width — with table-layout: fixed it's
+   the one column that absorbs whatever space is left over. */
 
 .applications-table th:nth-child(10),
 .applications-table td:nth-child(10) {
