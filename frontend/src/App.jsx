@@ -1,15 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchApplications, fetchProfiles, createProfile, updateProfileTheme } from './api.js';
+import { fetchApplications, fetchProfiles, createProfile, updateProfileTheme, checkSession, logout, onUnauthorized } from './api.js';
 import { setActiveProfileId, loadStoredProfileId } from './profileStore.js';
 import AddApplicationTab from './components/AddApplicationTab.jsx';
 import ApplicationsTab from './components/ApplicationsTab.jsx';
 import HistoryTab from './components/HistoryTab.jsx';
 import ProfileTab from './components/ProfileTab.jsx';
 import Modal from './components/Modal.jsx';
+import Login from './components/Login.jsx';
 
 const TABS = ['Applications', 'Add Application', 'History', 'Profile'];
 
 export default function App() {
+  const [authChecked, setAuthChecked] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+
   const [activeTab, setActiveTab] = useState('Applications');
   const [applications, setApplications] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -28,6 +32,28 @@ export default function App() {
   }, [currentProfile?.theme]);
 
   useEffect(() => {
+    onUnauthorized(() => setAuthenticated(false));
+  }, []);
+
+  useEffect(() => {
+    checkSession()
+      .then((res) => setAuthenticated(res.authenticated))
+      .finally(() => setAuthChecked(true));
+  }, []);
+
+  async function handleLogout() {
+    try {
+      await logout();
+    } finally {
+      setAuthenticated(false);
+      setProfileReady(false);
+      setProfiles([]);
+      setProfileId(null);
+    }
+  }
+
+  useEffect(() => {
+    if (!authenticated) return;
     fetchProfiles().then((list) => {
       setProfiles(list);
       const stored = loadStoredProfileId();
@@ -38,7 +64,7 @@ export default function App() {
       }
       setProfileReady(true);
     });
-  }, []);
+  }, [authenticated]);
 
   const refreshApplications = useCallback(() => {
     if (!profileReady || !profileId) return;
@@ -86,6 +112,9 @@ export default function App() {
       setProfiles((list) => list.map((p) => (p.id === currentProfile.id ? { ...p, theme: currentProfile.theme } : p)));
     }
   }
+
+  if (!authChecked) return null;
+  if (!authenticated) return <Login onSuccess={() => setAuthenticated(true)} />;
 
   return (
     <div className="app">
@@ -138,6 +167,7 @@ export default function App() {
                 theme={currentProfile?.theme || 'light'}
                 onThemeChange={handleThemeChange}
                 onRenamed={handleProfileRenamed}
+                onLogout={handleLogout}
               />
             )}
           </>

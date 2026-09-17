@@ -1,17 +1,30 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import applicationsRouter from './routes/applications.js';
 import historyRouter from './routes/history.js';
 import profilesRouter from './routes/profiles.js';
+import authRouter from './routes/auth.js';
+import { requireAuth } from './auth.js';
 
 const app = express();
+// Needed so req.secure reflects the original HTTPS request Vercel terminates
+// and forwards over plain HTTP internally (otherwise the session cookie's
+// `secure` flag would never be set in production).
+app.set('trust proxy', 1);
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
   next();
 });
+
+// Login/logout/session-check are public; everything else requires a session.
+app.use('/api', authRouter);
+app.get('/api/health', (req, res) => res.json({ ok: true }));
+app.use('/api', requireAuth);
 
 // The frontend sends the active profile on every request via this header;
 // /api/profiles itself is profile-agnostic (it lists/creates profiles).
@@ -24,8 +37,6 @@ app.use((req, res, next) => {
 app.use('/api/profiles', profilesRouter);
 app.use('/api/applications', applicationsRouter);
 app.use('/api/history', historyRouter);
-
-app.get('/api/health', (req, res) => res.json({ ok: true }));
 
 // Catches errors thrown (sync or via next(err)) anywhere in the routes above,
 // logs the full stack to the backend terminal, and returns JSON instead of

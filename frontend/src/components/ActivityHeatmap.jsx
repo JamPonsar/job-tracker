@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { fetchActivity } from '../api.js';
 
 const DAY_LABELS = ['', 'Mon', '', 'Wed', '', 'Fri', ''];
@@ -63,6 +63,7 @@ function buildMonthLabels(weeks) {
 export default function ActivityHeatmap({ profileId }) {
   const [countsByDate, setCountsByDate] = useState({});
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     if (!profileId) return;
@@ -78,6 +79,14 @@ export default function ActivityHeatmap({ profileId }) {
       .finally(() => setLoading(false));
   }, [profileId]);
 
+  // Default the horizontal scroll to the far right so the most recent
+  // activity (this week, the rightmost column) is what's visible first.
+  useEffect(() => {
+    if (!loading && scrollRef.current) {
+      scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
+    }
+  }, [loading, countsByDate]);
+
   const weeks = buildWeeks(countsByDate);
   const monthLabels = buildMonthLabels(weeks);
   const totalApplied = Object.values(countsByDate).reduce((sum, n) => sum + n, 0);
@@ -88,39 +97,41 @@ export default function ActivityHeatmap({ profileId }) {
         {loading ? 'Loading…' : `${totalApplied} application${totalApplied === 1 ? '' : 's'} applied for in the last year.`}
       </p>
       {!loading && (
-        <div className="heatmap-scroll">
-          <div className="heatmap-body">
-            <div className="heatmap-day-labels">
-              {DAY_LABELS.map((label, i) => (
-                <span key={i} className="heatmap-day-label">
-                  {label}
-                </span>
-              ))}
-            </div>
-            <div>
-              <div className="heatmap-months">
-                {monthLabels.map((label, i) => (
-                  <span key={i} className="heatmap-month-label">
+        <>
+          <div className="heatmap-scroll" ref={scrollRef}>
+            <div className="heatmap-body">
+              <div className="heatmap-day-labels">
+                {DAY_LABELS.map((label, i) => (
+                  <span key={i} className="heatmap-day-label">
                     {label}
                   </span>
                 ))}
               </div>
-              <div className="heatmap-grid">
-                {weeks.map((week, wi) => (
-                  <div className="heatmap-week" key={wi}>
-                    {week.map((day, di) => (
-                      <div
-                        key={di}
-                        className={
-                          day.count === null
-                            ? 'heatmap-cell heatmap-cell-future'
-                            : `heatmap-cell heatmap-level-${levelForCount(day.count)}`
-                        }
-                        title={day.count === null ? undefined : `${day.count} application${day.count === 1 ? '' : 's'} on ${day.date}`}
-                      />
-                    ))}
-                  </div>
-                ))}
+              <div>
+                <div className="heatmap-months">
+                  {monthLabels.map((label, i) => (
+                    <span key={i} className="heatmap-month-label">
+                      {label}
+                    </span>
+                  ))}
+                </div>
+                <div className="heatmap-grid">
+                  {weeks.map((week, wi) => (
+                    <div className="heatmap-week" key={wi}>
+                      {week.map((day, di) => (
+                        <div
+                          key={di}
+                          className={
+                            day.count === null
+                              ? 'heatmap-cell heatmap-cell-future'
+                              : `heatmap-cell heatmap-level-${levelForCount(day.count)}`
+                          }
+                          title={day.count === null ? undefined : `${day.count} application${day.count === 1 ? '' : 's'} on ${day.date}`}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -131,7 +142,7 @@ export default function ActivityHeatmap({ profileId }) {
             ))}
             <span>More</span>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

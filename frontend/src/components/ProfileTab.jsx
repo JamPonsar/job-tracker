@@ -10,7 +10,7 @@ const THEME_OPTIONS = [
   { value: 'pastel-purple', label: 'Lavender', swatch: '#9569d6' },
 ];
 
-export default function ProfileTab({ profile, profiles, onSwitchProfile, onAddProfileClick, theme, onThemeChange, onRenamed }) {
+export default function ProfileTab({ profile, profiles, onSwitchProfile, onAddProfileClick, theme, onThemeChange, onRenamed, onLogout }) {
   const [name, setName] = useState(profile?.name || '');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -108,6 +108,14 @@ export default function ProfileTab({ profile, profiles, onSwitchProfile, onAddPr
             </button>
           ))}
         </div>
+      </section>
+
+      <section className="settings-section">
+        <h3>Account</h3>
+        <p className="modal-subtext">Sign out of this browser.</p>
+        <button className="btn btn-secondary" onClick={onLogout}>
+          Sign Out
+        </button>
       </section>
     </div>
   );
