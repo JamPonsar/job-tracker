@@ -4,7 +4,17 @@ import asyncHandler from '../asyncHandler.js';
 
 const router = Router();
 
-const VALID_THEMES = ['light', 'dark', 'pastel-pink', 'pastel-blue', 'pastel-purple'];
+const VALID_THEMES = [
+  'light',
+  'dark',
+  'pastel-pink',
+  'pastel-pink-dark',
+  'pastel-blue',
+  'pastel-purple',
+  'pastel-purple-dark',
+  'pastel-red',
+  'pastel-red-dark',
+];
 
 router.get('/', asyncHandler(async (req, res) => {
   const { rows } = await pool.query('SELECT * FROM profiles ORDER BY id ASC');

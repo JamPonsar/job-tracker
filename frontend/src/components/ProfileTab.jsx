@@ -3,11 +3,15 @@ import { renameProfile } from '../api.js';
 import ActivityHeatmap from './ActivityHeatmap.jsx';
 
 const THEME_OPTIONS = [
-  { value: 'light', label: 'Snow', swatch: '#2f6feb' },
-  { value: 'dark', label: 'Night', swatch: '#0b1120' },
-  { value: 'pastel-pink', label: 'Princess', swatch: '#e0679d' },
-  { value: 'pastel-blue', label: 'Sky', swatch: '#4a90d9' },
-  { value: 'pastel-purple', label: 'Lavender', swatch: '#9569d6' },
+  { value: 'light', label: 'Celestia', swatch: '#dce9fb' },
+  { value: 'dark', label: 'Luna', swatch: '#0b1120' },
+  { value: 'pastel-pink', label: 'Princess', swatch: '#f5a3c7' },
+  { value: 'pastel-pink-dark', label: 'Sakura', swatch: '#e8358f' },
+  { value: 'pastel-blue', label: 'Dash', swatch: '#4a90d9' },
+  { value: 'pastel-purple', label: 'Rarity', swatch: '#c8aaef' },
+  { value: 'pastel-purple-dark', label: 'Twilight', swatch: '#6a3fb0' },
+  { value: 'pastel-red', label: 'Cherry', swatch: '#f04a4a' },
+  { value: 'pastel-red-dark', label: 'Sunset', swatch: '#7a1f2e' },
 ];
 
 export default function ProfileTab({ profile, profiles, onSwitchProfile, onAddProfileClick, theme, onThemeChange, onRenamed, onLogout }) {

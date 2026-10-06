@@ -59,10 +59,10 @@
   --menu-bg: #182541;
   --menu-hover: #223256;
   --empty-state: #6b7592;
-  --heat-0: #151f38;
-  --heat-1: #24365c;
-  --heat-2: #2f4a80;
-  --heat-3: #3f66ad;
+  --heat-0: #2a3a5e;
+  --heat-1: #3a5287;
+  --heat-2: #4a6bb0;
+  --heat-3: #6082d6;
   --heat-4: #5b8dff;
 }
 
@@ -99,7 +99,7 @@
 }
 
 [data-theme='pastel-blue'] {
-  --bg: #eff6fc;
+  --bg: #e8f2fd;
   --panel-bg: #ffffff;
   --border: #d6e7f5;
   --input-border: #bcd9f0;
@@ -160,6 +160,134 @@
   --heat-2: #b28ce3;
   --heat-3: #9569d6;
   --heat-4: #7c47c4;
+}
+
+[data-theme='pastel-red'] {
+  --bg: #fdf1f0;
+  --panel-bg: #ffffff;
+  --border: #f5d8d6;
+  --input-border: #efbfbc;
+  --text: #4d2220;
+  --text-muted: #a87876;
+  --accent: #e0635f;
+  --accent-hover: #c94b47;
+  --danger: #b3261e;
+  --success: #1e8a4c;
+  --badge-bg: #fbe0de;
+  --badge-text: #c94b47;
+  --event-added-bg: #e6f6ec;
+  --event-added-text: #1e8a4c;
+  --event-deleted-bg: #fbe0de;
+  --event-deleted-text: #b3261e;
+  --event-undo-bg: #fbe0de;
+  --event-undo-text: #c94b47;
+  --modal-overlay: rgba(77, 34, 32, 0.35);
+  --toast-bg: #4d2220;
+  --toast-text: #ffffff;
+  --menu-bg: #ffffff;
+  --menu-hover: #fbe0de;
+  --empty-state: #bd908e;
+  --heat-0: #fcedec;
+  --heat-1: #f3bab7;
+  --heat-2: #ec918d;
+  --heat-3: #e0635f;
+  --heat-4: #c93f3b;
+}
+
+[data-theme='pastel-pink-dark'] {
+  --bg: #1d0f17;
+  --panel-bg: #2a1622;
+  --border: #4a2539;
+  --input-border: #5a2f46;
+  --text: #f6e3ec;
+  --text-muted: #c39bb0;
+  --accent: #f07fb0;
+  --accent-hover: #f59cc4;
+  --danger: #ff7a72;
+  --success: #4ade80;
+  --badge-bg: rgba(240, 127, 176, 0.18);
+  --badge-text: #f7a8c9;
+  --event-added-bg: rgba(74, 222, 128, 0.14);
+  --event-added-text: #4ade80;
+  --event-deleted-bg: rgba(255, 122, 114, 0.14);
+  --event-deleted-text: #ff7a72;
+  --event-undo-bg: rgba(240, 127, 176, 0.18);
+  --event-undo-text: #f7a8c9;
+  --modal-overlay: rgba(10, 3, 7, 0.65);
+  --toast-bg: #3a1f2e;
+  --toast-text: #f6e3ec;
+  --menu-bg: #331b29;
+  --menu-hover: #44243a;
+  --empty-state: #8f6a7e;
+  --heat-0: #4b2c40;
+  --heat-1: #6e3a5c;
+  --heat-2: #92487a;
+  --heat-3: #c8629c;
+  --heat-4: #f07fb0;
+}
+
+[data-theme='pastel-purple-dark'] {
+  --bg: #150f22;
+  --panel-bg: #1f1733;
+  --border: #3a2c5c;
+  --input-border: #483872;
+  --text: #ece6f8;
+  --text-muted: #ae9fcc;
+  --accent: #b08af0;
+  --accent-hover: #c3a5f5;
+  --danger: #ff7a72;
+  --success: #4ade80;
+  --badge-bg: rgba(176, 138, 240, 0.18);
+  --badge-text: #c9b0f6;
+  --event-added-bg: rgba(74, 222, 128, 0.14);
+  --event-added-text: #4ade80;
+  --event-deleted-bg: rgba(255, 122, 114, 0.14);
+  --event-deleted-text: #ff7a72;
+  --event-undo-bg: rgba(176, 138, 240, 0.18);
+  --event-undo-text: #c9b0f6;
+  --modal-overlay: rgba(6, 3, 14, 0.65);
+  --toast-bg: #2d2250;
+  --toast-text: #ece6f8;
+  --menu-bg: #271d40;
+  --menu-hover: #34285a;
+  --empty-state: #7d6fa0;
+  --heat-0: #3f3262;
+  --heat-1: #58449a;
+  --heat-2: #7458b8;
+  --heat-3: #9570dc;
+  --heat-4: #b08af0;
+}
+
+[data-theme='pastel-red-dark'] {
+  --bg: #1e0f0f;
+  --panel-bg: #2b1716;
+  --border: #4d2928;
+  --input-border: #5e3331;
+  --text: #f8e4e3;
+  --text-muted: #c79c9a;
+  --accent: #f2736f;
+  --accent-hover: #f69390;
+  --danger: #ff7a72;
+  --success: #4ade80;
+  --badge-bg: rgba(242, 115, 111, 0.18);
+  --badge-text: #f7a09d;
+  --event-added-bg: rgba(74, 222, 128, 0.14);
+  --event-added-text: #4ade80;
+  --event-deleted-bg: rgba(255, 122, 114, 0.14);
+  --event-deleted-text: #ff7a72;
+  --event-undo-bg: rgba(242, 115, 111, 0.18);
+  --event-undo-text: #f7a09d;
+  --modal-overlay: rgba(12, 3, 3, 0.65);
+  --toast-bg: #3d2120;
+  --toast-text: #f8e4e3;
+  --menu-bg: #351c1b;
+  --menu-hover: #472624;
+  --empty-state: #946d6b;
+  --heat-0: #4d2f2d;
+  --heat-1: #733a37;
+  --heat-2: #9a4a46;
+  --heat-3: #d3615d;
+  --heat-4: #f2736f;
 }
 
 body {
@@ -661,6 +789,73 @@ td {
 .applications-table th:nth-child(10),
 .applications-table td:nth-child(10) {
   width: 90px;
+}
+
+/* Row highlighting by result. Tints are mixed over transparent so they work
+   on every theme's panel color. */
+.applications-table tr.row-rejected td {
+  background: color-mix(in srgb, var(--danger) 16%, transparent);
+}
+
+.applications-table tr.row-progress td {
+  background: color-mix(in srgb, var(--success) 15%, transparent);
+}
+
+.applications-table tr.row-offer td {
+  background: color-mix(in srgb, var(--success) 28%, transparent);
+}
+
+.table-section + .table-section {
+  margin-top: 24px;
+}
+
+.section-title {
+  position: sticky;
+  left: 0;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.section-title.section-progress {
+  color: var(--success);
+}
+
+.section-title.section-rejected {
+  color: var(--danger);
+}
+
+.section-count {
+  margin-left: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.view-toggle {
+  display: inline-flex;
+  margin-left: auto;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.view-toggle-btn {
+  padding: 6px 14px;
+  border: none;
+  background: var(--panel-bg);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.view-toggle-btn + .view-toggle-btn {
+  border-left: 1px solid var(--input-border);
+}
+
+.view-toggle-btn.active {
+  background: var(--badge-bg);
+  color: var(--accent);
 }
 
 .applications-table td select {
